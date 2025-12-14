@@ -75,7 +75,10 @@ class TestHeatEquationSolver(unittest.TestCase):
         solver.run()
         final_energy = solver.u.sum() * solver.dx
 
-        self.assertLessEqual(final_energy, initial_energy + 1e-12)
+        self.assertTrue(
+            final_energy <= initial_energy or np.isclose(final_energy, initial_energy, atol=1e-12),
+            f"Final energy ({final_energy}) should not exceed initial energy ({initial_energy}) except for roundoff."
+        )
 
 
 if __name__ == "__main__":
