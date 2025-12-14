@@ -95,8 +95,8 @@ class HeatEquationSolver:
         ConfigurationError
             If nx or nt are invalid or time/length are non-positive.
         """
-        if self.config.nx < 2:
-            raise ConfigurationError("nx must be at least 2.")
+        if self.config.nx < 3:
+            raise ConfigurationError("nx must be at least 3 (2 boundaries + at least 1 interior point).")
         if self.config.nt < 1:
             raise ConfigurationError("nt must be at least 1.")
         if self.config.length <= 0:
