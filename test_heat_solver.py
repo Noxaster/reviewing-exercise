@@ -4,6 +4,7 @@ import numpy as np
 from heat_solver import (
     SimulationConfig,
     HeatEquationSolver,
+    ConfigurationError,
 )
 
 

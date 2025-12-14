@@ -95,14 +95,16 @@ class HeatEquationSolver:
         ConfigurationError
             If nx or nt are invalid or time/length are non-positive.
         """
-        if self.config.nx < 3:
-            raise ConfigurationError("nx must be at least 3 (2 boundaries + at least 1 interior point).")
+        if self.config.nx < 2:
+            raise ConfigurationError("nx must be at least 2.")
         if self.config.nt < 1:
             raise ConfigurationError("nt must be at least 1.")
         if self.config.length <= 0:
             raise ConfigurationError("length must be positive.")
         if self.config.total_time <= 0:
             raise ConfigurationError("total_time must be positive.")
+        if self.config.alpha <= 0:
+            raise ConfigurationError("alpha (thermal diffusivity) must be positive.")
 
         dx = self.config.length / (self.config.nx - 1)
         dt = self.config.total_time / self.config.nt
@@ -196,6 +198,8 @@ class HeatEquationSolver:
         The CSV file will have two columns: x, u.
         """
         filepath = Path(filepath)
+        # Ensure the parent directory exists
+        filepath.parent.mkdir(parents=True, exist_ok=True)
         data = np.column_stack((self.x, self.u))
         np.savetxt(filepath, data, delimiter=",", header="x,u", comments="")
 
